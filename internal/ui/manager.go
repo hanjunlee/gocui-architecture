@@ -259,10 +259,6 @@ func (m *Manager) ReturnSwitcher(g *gocui.Gui) (service.UseCase, error) {
 	v, _ := g.View(Switcher)
 	s, _ := v.Line(0)
 	s = strings.TrimSpace(s)
-	svc, ok := m.SvcEntries[s]
-	if !ok {
-		return nil, fmt.Errorf("there is no service: %s", s)
-	}
 
 	g.DeleteView(Switcher)
 
@@ -270,5 +266,10 @@ func (m *Manager) ReturnSwitcher(g *gocui.Gui) (service.UseCase, error) {
 	v.SetOrigin(0, 0)
 	v.SetCursor(0, 0)
 	g.SetCurrentView(Core)
+
+	svc, ok := m.SvcEntries[s]
+	if !ok {
+		return nil, fmt.Errorf("there is no service: %s", s)
+	}
 	return svc, nil
 }
